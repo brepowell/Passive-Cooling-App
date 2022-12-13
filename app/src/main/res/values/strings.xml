@@ -1,3 +1,15 @@
 <resources>
+    <!-- App Name -->
     <string name="app_name">Passive-Cooling</string>
+
+    <!-- Generic Button Labels -->
+    <string name="button_back">Back</string>
+    <string name="button_yes">Yes</string>
+    <string name="button_no">No</string>
+
+    <!-- Screens -->
+    <string name="screen_title_main_menu">Main Menu</string>
+    <string name="screen_title_my_preferences">My preferences</string>
+    <string name="screen_title_my_building">My building</string>
+
 </resources>
