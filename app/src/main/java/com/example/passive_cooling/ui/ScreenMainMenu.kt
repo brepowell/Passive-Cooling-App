@@ -3,6 +3,7 @@ package com.example.passive_cooling.ui
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.selection.selectableGroup
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -13,6 +14,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.TextRange
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -42,22 +44,27 @@ fun ScreenMainMenu(
             text = "Welcome to Keep It Cool!",
             fontSize = 24.sp
         )
+
         Text(
             "Please input some information" +
-                    " to get a recommendation",
+                    " to get a recommendation for which" +
+                    "windows to open and when",
             fontSize = 16.sp
         )
 
-        Spacer(modifier = Modifier.size(32.dp))
+        Spacer(modifier = Modifier.size(24.dp))
 
-        /** ------- TEXT FIELDS ----------------- */
+        /** ------- CITY INFORMATION ----------------- */
         var text by rememberSaveable(stateSaver = TextFieldValue.Saver) {
             mutableStateOf(TextFieldValue("", TextRange(0, 7)))
         }
 
+        Spacer(modifier = Modifier.size(8.dp))
+
         TextField(
             value = text,
             onValueChange = { text = it },
+            modifier = Modifier.fillMaxWidth(),
             label = { Text("City") },
             placeholder = { Text("Bothell") }
         )
@@ -67,16 +74,23 @@ fun ScreenMainMenu(
         TextField(
             value = text,
             onValueChange = { text = it },
+            modifier = Modifier.fillMaxWidth(),
             label = { Text("State") },
             placeholder = { Text("WA") }
         )
 
-        Spacer(modifier = Modifier.size(8.dp))
+        Spacer(modifier = Modifier.size(16.dp))
+
+        Text(
+            text = "What time of day is good?",
+            fontSize = 24.sp
+        )
 
         //TODO: ADD A TIME PICKER FOR EARLIEST TIME
         TextField(
             value = text,
             onValueChange = { text = it },
+            modifier = Modifier.fillMaxWidth(),
             label = { Text("Earliest time") },
             placeholder = { Text("7:00 AM") }
         )
@@ -87,10 +101,12 @@ fun ScreenMainMenu(
         TextField(
             value = text,
             onValueChange = { text = it },
+            modifier = Modifier.fillMaxWidth(),
             label = { Text("Latest time") },
             placeholder = { Text("1:00 AM") }
         )
 
+        /**------ CHECKING FOR ALLERGIES AND OTHER PROBLEMS ---- */
         Spacer(modifier = Modifier.size(16.dp))
 
         Text(
@@ -103,6 +119,7 @@ fun ScreenMainMenu(
 
         Spacer(modifier = Modifier.size(16.dp))
 
+        /**---------------- FLOOR LEVEL -------------- */
         Text(
             text = "What floor are you on?",
             fontSize = 24.sp
@@ -111,12 +128,16 @@ fun ScreenMainMenu(
         TextField(
             value = text,
             onValueChange = { text = it },
+            modifier = Modifier.fillMaxWidth(),
             label = { Text("Floor") },
-            placeholder = { Text("1") }
+            placeholder = { Text("1") },
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+            singleLine = true
         )
 
         Spacer(modifier = Modifier.size(16.dp))
 
+        /**---------------- WINDOWS -------------- */
         Text(
             text = "Which windows are you considering opening?",
             fontSize = 24.sp
@@ -124,13 +145,24 @@ fun ScreenMainMenu(
 
         Spacer(modifier = Modifier.size(8.dp))
 
-        /** ------- TOGGLE SWITCHES FOR DIRECTION ----------------- */
+        /** ----- TOGGLE SWITCHES FOR WINDOW DIRECTION ------ */
         var i = 0
         repeat(directionOptions.size) {
             CreateSwitch(directionOptions[i])
             i++
         }
 
+        /** ---- ASK FOR A REVIEW OF PREVIOUS RECOMMENDATION ---- */
+        Text(
+            text = "How was the most recent recommendation?",
+            fontSize = 24.sp
+        )
+
+        CreateSwitch("Previous recommendation")
+
+        Spacer(modifier = Modifier.size(8.dp))
+
+        /** ------- GET A RECOMMENDATION BUTTON ----------------- */
         Button(onClick = {}) {
             Text(
                 text = "Get a Recommendation",
@@ -138,7 +170,6 @@ fun ScreenMainMenu(
                 fontSize = 24.sp
             )
         }
-
     }
 }
 
