@@ -13,6 +13,7 @@ import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -22,12 +23,21 @@ fun ScreenMainMenu(
     //onHelpButtonClicked: () -> Unit
 ) {
     val directionOptions = listOf("North", "East", "South", "West")
-    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+    Column(
+        Modifier.padding(32.dp).fillMaxWidth(),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Spacer(modifier = Modifier.size(32.dp))
+
         /** ------- PROMPT ----------------- */
-        Text(text = "Welcome to Keep It Cool! \n" +
-                "Please input your information")
-        
-        Spacer(modifier = Modifier.size(16.dp))
+        Text(
+            text = "Welcome to Keep It Cool! \n" +
+                    "Please input your information \n" +
+                    "to get a recommendation",
+            fontSize = 24.sp
+        )
+
+        Spacer(modifier = Modifier.size(32.dp))
 
         /** ------- TEXT FIELDS ----------------- */
         var text by rememberSaveable(stateSaver = TextFieldValue.Saver) {
@@ -41,11 +51,31 @@ fun ScreenMainMenu(
             placeholder = { Text("Bothell") }
         )
 
+        Spacer(modifier = Modifier.size(8.dp))
+
         TextField(
             value = text,
             onValueChange = { text = it },
             label = { Text("State") },
             placeholder = { Text("WA") }
+        )
+
+        Spacer(modifier = Modifier.size(8.dp))
+
+        TextField(
+            value = text,
+            onValueChange = { text = it },
+            label = { Text("Earliest time") },
+            placeholder = { Text("6:00 AM") }
+        )
+
+        Spacer(modifier = Modifier.size(8.dp))
+
+        TextField(
+            value = text,
+            onValueChange = { text = it },
+            label = { Text("Latest time") },
+            placeholder = { Text("6:00 AM") }
         )
 
         CreateSwitch("Allergies today")
@@ -60,19 +90,21 @@ fun ScreenMainMenu(
     }
 }
 
+/** TOGGLE SWITCHES */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CreateSwitch(text: String) {
     var checked by remember { mutableStateOf(true) }
 
     Row(
-        Modifier.selectableGroup(),
+        Modifier.selectableGroup().fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.End
     )
 
     {
-        Column {
+        Column(modifier = Modifier.fillMaxWidth(),
+            horizontalAlignment = Alignment.Start)
+        {
             Text(
                 text = text,
                 style = MaterialTheme.typography.bodyLarge,
@@ -80,10 +112,14 @@ fun CreateSwitch(text: String) {
             )
         }
 
-        Column(
-        ) {
+        Column(modifier = Modifier.fillMaxWidth(),
+            horizontalAlignment = Alignment.End)
+        {
             Switch(
-                modifier = Modifier.semantics { contentDescription = "Demo" },
+                modifier = Modifier
+                    .width(36.dp)
+                    .padding(end = 48.dp)
+                    .semantics { contentDescription = "Demo" },
                 checked = checked,
                 onCheckedChange = { checked = it })
         }
