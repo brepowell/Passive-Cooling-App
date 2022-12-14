@@ -9,6 +9,7 @@ import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.TextRange
@@ -51,7 +52,7 @@ fun ScreenMainMenu(
 
         /** ------- TEXT FIELDS ----------------- */
         var text by rememberSaveable(stateSaver = TextFieldValue.Saver) {
-            mutableStateOf(TextFieldValue("example", TextRange(0, 7)))
+            mutableStateOf(TextFieldValue("", TextRange(0, 7)))
         }
 
         TextField(
@@ -130,6 +131,13 @@ fun ScreenMainMenu(
             i++
         }
 
+        Button(onClick = {}) {
+            Text(
+                text = "Get a Recommendation",
+                color = Color.White,
+                fontSize = 24.sp
+            )
+        }
 
     }
 }
