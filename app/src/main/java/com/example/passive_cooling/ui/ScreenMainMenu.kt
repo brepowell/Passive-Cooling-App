@@ -1,7 +1,9 @@
 package com.example.passive_cooling.ui
 
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.selection.selectableGroup
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -24,17 +26,25 @@ fun ScreenMainMenu(
 ) {
     val directionOptions = listOf("North", "East", "South", "West")
     Column(
-        Modifier.padding(32.dp).fillMaxWidth(),
-        horizontalAlignment = Alignment.CenterHorizontally
+        Modifier
+            .padding(32.dp)
+            .fillMaxWidth() //FILL THE FULL WIDTH OF THE SCREEN
+            .size(2000.dp) //THE HEIGHT OF THE SCREEN
+            .padding(horizontal = 16.dp)
+            .verticalScroll(rememberScrollState()), //MAKES THE INPUT SCROLLABLE
+        //horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Spacer(modifier = Modifier.size(32.dp))
 
         /** ------- PROMPT ----------------- */
         Text(
-            text = "Welcome to Keep It Cool! \n" +
-                    "Please input your information \n" +
-                    "to get a recommendation",
+            text = "Welcome to Keep It Cool!",
             fontSize = 24.sp
+        )
+        Text(
+            "Please input some information" +
+                    " to get a recommendation",
+            fontSize = 16.sp
         )
 
         Spacer(modifier = Modifier.size(32.dp))
@@ -62,24 +72,56 @@ fun ScreenMainMenu(
 
         Spacer(modifier = Modifier.size(8.dp))
 
+        //TODO: ADD A TIME PICKER FOR EARLIEST TIME
         TextField(
             value = text,
             onValueChange = { text = it },
             label = { Text("Earliest time") },
-            placeholder = { Text("6:00 AM") }
+            placeholder = { Text("7:00 AM") }
         )
 
+        //TODO: ADD A TIME PICKER FOR LATEST TIME
         Spacer(modifier = Modifier.size(8.dp))
 
         TextField(
             value = text,
             onValueChange = { text = it },
             label = { Text("Latest time") },
-            placeholder = { Text("6:00 AM") }
+            placeholder = { Text("1:00 AM") }
+        )
+
+        Spacer(modifier = Modifier.size(16.dp))
+
+        Text(
+            text = "How are things today?",
+            fontSize = 24.sp
         )
 
         CreateSwitch("Allergies today")
         CreateSwitch("Noise outside today")
+
+        Spacer(modifier = Modifier.size(16.dp))
+
+        Text(
+            text = "What floor are you on?",
+            fontSize = 24.sp
+        )
+
+        TextField(
+            value = text,
+            onValueChange = { text = it },
+            label = { Text("Floor") },
+            placeholder = { Text("1") }
+        )
+
+        Spacer(modifier = Modifier.size(16.dp))
+
+        Text(
+            text = "Which windows are you considering opening?",
+            fontSize = 24.sp
+        )
+
+        Spacer(modifier = Modifier.size(8.dp))
 
         /** ------- TOGGLE SWITCHES FOR DIRECTION ----------------- */
         var i = 0
@@ -87,6 +129,8 @@ fun ScreenMainMenu(
             CreateSwitch(directionOptions[i])
             i++
         }
+
+
     }
 }
 
@@ -97,31 +141,45 @@ fun CreateSwitch(text: String) {
     var checked by remember { mutableStateOf(true) }
 
     Row(
-        Modifier.selectableGroup().fillMaxWidth(),
+        Modifier
+            .selectableGroup()
+            .fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically,
     )
 
     {
-        Column(modifier = Modifier.fillMaxWidth(),
-            horizontalAlignment = Alignment.Start)
+
+        /** ALIGN THE TEXT TO THE LEFT */
+        Column(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalAlignment = Alignment.Start
+        )
         {
             Text(
                 text = text,
                 style = MaterialTheme.typography.bodyLarge,
-                modifier = Modifier.padding(start = 36.dp, end = 36.dp)
+                modifier = Modifier.padding(start = 16.dp)
             )
         }
 
-        Column(modifier = Modifier.fillMaxWidth(),
-            horizontalAlignment = Alignment.End)
+        /** ALIGN THE TOGGLE SWITCH TO THE RIGHT */
+        Box(
+            modifier = Modifier
+                .width(50.dp),
+            contentAlignment = Alignment.Center
+        )
         {
-            Switch(
-                modifier = Modifier
-                    .width(36.dp)
-                    .padding(end = 48.dp)
-                    .semantics { contentDescription = "Demo" },
-                checked = checked,
-                onCheckedChange = { checked = it })
+            Row(modifier = Modifier.fillMaxWidth())
+            {
+                Switch(
+                    modifier = Modifier
+                        .width(36.dp)
+                        .padding(end = 48.dp)
+                        .semantics { contentDescription = "Demo" },
+                    checked = checked,
+                    onCheckedChange = { checked = it }
+                )
+            }
         }
     }
 }
